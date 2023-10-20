@@ -1,0 +1,21 @@
+@use "./src/assets/sass/_utils.functions.scss" as f;
+
+.calculation-history-wrapper {
+    margin: f.pxToRem(20px);
+    border: 10px solid #fff;
+    border-radius: 10px;
+}
+
+.calculation-history-wrapper h2 {
+    text-align: center;
+    padding-bottom: f.pxToRem(5px);
+}
+
+.ant-table-cell {
+    text-align: center !important;
+    border: 0.5px solid rgb(133, 13, 13) !important;
+}
+
+.ant-table-thead {
+    font-size: 16px;
+}

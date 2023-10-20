@@ -1,0 +1,16 @@
+@use "./src/assets/sass/_utils.functions.scss" as f;
+@use "./src/assets/sass/variables/_variables.colors.scss" as c;
+
+.progress-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 16px;
+}
+
+.progress-text {
+    margin-left: f.pxToRem(10px);
+    font-weight: bold;
+    color: c.$green-border-color;
+}

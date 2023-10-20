@@ -1,0 +1,38 @@
+@use "./src/assets/sass/_utils.functions.scss" as f;
+@use "./src/assets/sass/variables/_variables.colors.scss" as c;
+
+.home-page-container {
+    margin: f.pxToRem(50px);
+    text-align: center;
+}
+
+.formula-container {
+    margin-bottom: f.pxToRem(20px);
+}
+
+.sin-cos-container {
+    margin: f.pxToRem(20px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sin-cos-input {
+    width: f.pxToRem(100px);
+    margin-right: f.pxToRem(5px);
+}
+
+.button-container {
+    margin: f.pxToRem(20px);
+    display: flex;
+    justify-content: center;
+    gap: f.pxToRem(20px)
+}
+
+.ant-card-bordered {
+    border: 1px solid c.$green-border-color;
+}
+
+.ant-card-head {
+    border-bottom: 1px solid c.$green-border-color;
+}

@@ -1,0 +1,40 @@
+// @use "@sass/_utils.functions.scss" as f;
+@use "./src/assets/sass/_utils.functions.scss" as f;
+@use "./src/assets/sass/variables/_variables.colors.scss" as c;
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-form {
+    max-width: f.pxToRem(400px);
+    width: 100%;
+    padding: f.pxToRem(20px);
+    border: 1px solid c.$border-color;
+    border-radius: 4px;
+    background-color: c.$pure-white-color;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ant-form-item {
+    margin-bottom: f.pxToRem(30px);
+}
+.login-form-button,
+.ant-input-affix-wrapper {
+    font-size: 16px !important;
+}
+
+.ant-form label,
+.additional-text-form {
+    font-size: 14px !important;
+}
+
+.login-form-button {
+    width: 100%;
+    height: auto;
+    padding: 0;
+    text-align: center;
+}
