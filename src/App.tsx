@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { baseUrl, AUTH_ENDPOINTS } from './app/common/constants/url.constants';
 import { PrivateRoute } from './app/common/components/PrivateRoute';
 import CalculationHistory from './features/History/History.component';
+import { FRONTEND_ROUTES } from './app/common/constants/frontend-routes.constants';
 
 function App() {
   const [username, setUsername] = useState('');
@@ -31,11 +32,11 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<PrivateRoute />}>
-              <Route index path='/' element={<HomePage userName={username} />} />
-              <Route index path='/history' element={<CalculationHistory />} />
+              <Route index path={FRONTEND_ROUTES.HOME} element={<HomePage userName={username} />} />
+              <Route index path={FRONTEND_ROUTES.HISTORY} element={<CalculationHistory />} />
             </Route>
-            <Route path="/login" Component={() => <LoginForm setUserName={setUsername} />} />
-            <Route path="/register" Component={RegisterForm} />
+            <Route path={FRONTEND_ROUTES.LOGIN} Component={() => <LoginForm setUserName={setUsername} />} />
+            <Route path={FRONTEND_ROUTES.REGISTER} Component={RegisterForm} />
           </Routes>
         </BrowserRouter>
       </div>
