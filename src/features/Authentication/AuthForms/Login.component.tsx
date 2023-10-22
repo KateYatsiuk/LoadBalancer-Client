@@ -1,22 +1,12 @@
 import { SyntheticEvent, useState } from 'react';
 import { EyeInvisibleOutlined, EyeTwoTone, LockOutlined, MailOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import "./AuthForms.styles.scss";
 import { AUTH_FORM_CONSTANTS } from '../../../app/common/constants/validation.constants';
+import { FRONTEND_ROUTES } from '../../../app/common/constants/frontend-routes.constants';
 
 
 const LoginForm = (props: { setUserName: (name: string) => void }) => {
-    // const onFinish = async (values: any) => {
-    //     try {
-    //         await login({
-    //             email: values.email,
-    //             password: values.password,
-    //         });
-    //         window.location.href = '/';
-    //     } catch (error) {
-    //         message.error('Not valid credentials');
-    //     }
-    // };
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const onFinish = async (e: SyntheticEvent) => {
@@ -30,11 +20,13 @@ const LoginForm = (props: { setUserName: (name: string) => void }) => {
                 password
             })
         });
-
+        if (response.status === 400) {
+            message.error('Wrong email or password');
+        } else {
         const content = await response.json();
-
-        window.location.href = '/';
+        window.location.href = FRONTEND_ROUTES.HOME;
         props.setUserName(content.name);
+        }   
     }
 
     return (

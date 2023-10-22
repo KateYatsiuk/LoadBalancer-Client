@@ -1,12 +1,13 @@
 import { Button, Card, Col, InputNumber, Row, Statistic, message } from "antd";
 import 'katex/dist/katex.min.css';
 import { BlockMath } from 'react-katex';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import httpModule from "../../app/common/helpers/http.module";
 
 import './HomePage.styles.scss';
 import CalculationProgressMonitor from "../ProgressCounter/ProgressCounter.component";
 import { CALCULATE_CONSTANTS } from "../../app/common/constants/validation.constants";
+import { v4 as uuidv4 } from 'uuid';
 
 function FormulaDisplay() {
     return (
@@ -26,29 +27,31 @@ const HomePage = (_props: { userName: string }) => {
     const [sinResult, setSinResult] = useState<number | null>(null);
     const [cosResult, setCosResult] = useState<number | null>(null);
     const [showResults, setShowResults] = useState(false);
-    const [connectionId, setConnectionId] = useState('');
     const noSin = sinValue === undefined || sinValue === null;
     const noCos = cosValue === undefined || cosValue === null;
     const noN = nValue === undefined || nValue === null;
-
-    const handleConnectionIdReceived = (receivedId: string) => {
-        setConnectionId(receivedId);
-        console.log("connectionId " + connectionId);
-    };
-    useEffect(() => {
-        console.log("connectionId EFFECT " + connectionId);
-    }, [connectionId]);
+    const [calculating, setCalculating] = useState(false);
+    const [uniqueURI, setUniqueURI] = useState('');
+    const [currentDateTime, setCurrentDateTime] = useState('');
 
     async function handleCalculateClick(_event: any): Promise<void> {
+        const newUniqueURI = uuidv4();
+        setUniqueURI(newUniqueURI);
+        const now = new Date().toISOString();
+        const parts = now.split("T");
+        const withoutMs = parts[0];
+        const identifier = withoutMs + newUniqueURI;
+        console.log("In home " + identifier);
+        setCurrentDateTime(identifier);
         try {
-            console.log("connectionId in click " + connectionId);
-            const response = await httpModule.post('Trigonometry/calculate', {
+            setCalculating(true);
+            const response = await httpModule.post(`Trigonometry/calculate`, {
                 xForSin: sinValue,
                 xForCos: cosValue,
                 n: nValue,
-                connectionId: connectionId,
+                dateTime: identifier,
             }, {
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'X-URI': newUniqueURI, },
             });
             const calculatedResult = response.data;
 
@@ -62,11 +65,15 @@ const HomePage = (_props: { userName: string }) => {
         } catch {
             message.error('Error');
         }
+        setTimeout(() => {
+            setCalculating(false);
+        }, 1000);
     }
 
     async function handleCancelClick(_event: any): Promise<void> {
         try {
-            await httpModule.post('Trigonometry/cancel');
+            await httpModule.post(`Trigonometry/cancel`, null, { headers: { 'X-URI': uniqueURI, } });
+            setCalculating(false);
             message.success('Task is cancelled');
         } catch {
             message.error('Error');
@@ -125,8 +132,7 @@ const HomePage = (_props: { userName: string }) => {
                     Скасувати
                 </Button>
             </div>
-            <CalculationProgressMonitor onConnectionIdReceived={handleConnectionIdReceived} />
-            {/* <CalculationProgressMonitor /> */}
+            <CalculationProgressMonitor calculating={calculating} datetime={currentDateTime} />
             {showResults ? (
                 <Card title="Результат обчислення" style={{ marginTop: '20px' }}>
                     <Row gutter={16}>

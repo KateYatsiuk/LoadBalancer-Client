@@ -1,5 +1,6 @@
 import { Layout, Menu } from 'antd';
 import { AUTH_ENDPOINTS, baseUrl } from '../constants/url.constants';
+import { FRONTEND_ROUTES } from '../constants/frontend-routes.constants';
 
 const { Header } = Layout;
 
@@ -10,7 +11,7 @@ const NavBar = (props: { userName: string, setUserName: (name: string) => void }
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
-    window.location.href = '/login';
+    window.location.href = FRONTEND_ROUTES.LOGIN;
     props.setUserName('');
     console.log(props.userName);
   }
@@ -23,22 +24,22 @@ const NavBar = (props: { userName: string, setUserName: (name: string) => void }
           {!props.userName ? (
             <>
               <Menu.Item key="register">
-                <a href="/register">Register</a>
+                <a href={FRONTEND_ROUTES.REGISTER}>Register</a>
               </Menu.Item>
               <Menu.Item key="login">
-                <a href="/login">Login</a>
+                <a href={FRONTEND_ROUTES.LOGIN}>Login</a>
               </Menu.Item>
             </>
           ) : (
             <>
               <Menu.Item key="register">
-                <a href="/" className="navbar-brand">Home</a>
+                <a href={FRONTEND_ROUTES.HOME} className="navbar-brand">Home</a>
               </Menu.Item>
               <Menu.Item key="history">
-                <a href="/history">History</a>
+                <a href={FRONTEND_ROUTES.HISTORY}>History</a>
               </Menu.Item>
               <Menu.Item key="logout">
-                <a href="/login" onClick={logout}>Logout</a>
+                <a href={FRONTEND_ROUTES.LOGIN} onClick={logout}>Logout</a>
               </Menu.Item>
             </>
           )}

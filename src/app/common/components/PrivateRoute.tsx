@@ -1,36 +1,10 @@
-// import { Navigate, Outlet } from 'react-router-dom';
-// import { useAuth } from './AuthProvider.component';
-// import { useEffect, useState } from 'react';
-// import { AUTH_ENDPOINTS, baseUrl } from '../constants/url.constants';
-
-// export function PrivateRoute() {
-//   // const { user } = useAuth() as any;
-//   const [user, setUser] = useState(null);
-
-//   useEffect(() => {
-//     (async () => {
-//       const response = await fetch(baseUrl + AUTH_ENDPOINTS.GET_USER, {
-//         headers: { 'Content-Type': 'application/json' },
-//         credentials: 'include',
-//       });
-
-//       const content = await response.json();
-//       console.log(content);
-//       setUser(content);
-//       console.log(user);
-//     })();
-//   }, [user]);
-
-//   return user ? <Outlet /> : <Navigate to="/login" replace />;
-// }
-
 import { Navigate, Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AUTH_ENDPOINTS, baseUrl } from '../constants/url.constants';
 import { Space, Spin } from 'antd';
+import { FRONTEND_ROUTES } from '../constants/frontend-routes.constants';
 
 export function PrivateRoute() {
-  // const { user } = useAuth() as any;
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -69,5 +43,5 @@ export function PrivateRoute() {
     );
   }
 
-  return user ? <Outlet /> : <Navigate to="/login" replace />;
+  return user ? <Outlet /> : <Navigate to={FRONTEND_ROUTES.LOGIN} replace />;
 }
