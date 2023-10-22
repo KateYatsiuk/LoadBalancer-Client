@@ -25,7 +25,6 @@ httpModule.interceptors.response.use(
             break;
         case StatusCodes.UNAUTHORIZED:
             errorMessage = ReasonPhrases.UNAUTHORIZED;
-            console.log("I AM UNAUTHORIZED");
             window.location.href = FRONTEND_ROUTES.LOGIN;
             break;
         case StatusCodes.NOT_FOUND:
