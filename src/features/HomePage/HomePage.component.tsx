@@ -60,9 +60,13 @@ const HomePage = (_props: { userName: string }) => {
             console.log('Результат обчислення:', sinx, cosx);
             setSinResult(sinx);
             setCosResult(cosx);
-            message.success('Result is ready');
-            setShowResults(true);
-        } catch {
+            if (response.status === 204) {
+                message.warning('You requested cancellation');
+            } else {
+                message.success('Result is ready');
+                setShowResults(true);
+            }
+        } catch (error: any) {
             message.error('Error');
         }
         setTimeout(() => {
@@ -74,7 +78,6 @@ const HomePage = (_props: { userName: string }) => {
         try {
             await httpModule.post(`Trigonometry/cancel`, null, { headers: { 'X-URI': uniqueURI, } });
             setCalculating(false);
-            message.success('Task is cancelled');
         } catch {
             message.error('Error');
         }
